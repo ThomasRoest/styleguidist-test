@@ -374,6 +374,10 @@ module.exports = function (webpackEnv) {
               },
             },
             {
+              test: /.\.md$/, // look for .md files in component folder
+              type: 'javascript/auto', // Tell webpack to interpret the result from examples-loader as JavaScript
+            },
+            {
               test: /\.svg$/,
               use: [
                 {
@@ -561,6 +565,15 @@ module.exports = function (webpackEnv) {
       ].filter(Boolean),
     },
     plugins: [
+        // Rewrites the absolute paths to those two files into relative paths
+        new webpack.NormalModuleReplacementPlugin(
+          /react-styleguidist\/lib\/loaders\/utils\/client\/requireInRuntime$/,
+          'react-styleguidist/lib/loaders/utils/client/requireInRuntime'
+        ),
+        new webpack.NormalModuleReplacementPlugin(
+          /react-styleguidist\/lib\/loaders\/utils\/client\/evalInContext$/,
+          'react-styleguidist/lib/loaders/utils/client/evalInContext'
+        ),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
